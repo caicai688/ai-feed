@@ -1,36 +1,80 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# AI 信息聚合
 
-## Getting Started
+实时聚合 AI 领域顶级信源的最新资讯
 
-First, run the development server:
+## 功能特性
+
+- 📰 聚合 10+ AI 领域权威信源
+- 🔄 实时抓取 RSS 数据
+- 🎨 现代化卡片式 UI
+- ⚡ Next.js 15 + TypeScript + Tailwind CSS
+- 🚀 一键部署到 Vercel
+
+## 信源列表
+
+- Anthropic Blog
+- OpenAI Blog
+- MIT Technology Review AI
+- The Rundown AI
+- TLDR AI
+- Hugging Face Blog
+- Google AI Blog
+- Meta AI Blog
+- DeepMind Blog
+- Towards Data Science
+
+## 本地开发
 
 ```bash
+# 安装依赖
+npm install
+
+# 启动开发服务器
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
+# 访问 http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 部署到 Vercel
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. 推送代码到 GitHub
+2. 登录 [Vercel](https://vercel.com)
+3. 导入 GitHub 仓库
+4. 自动部署完成！
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+或使用 Vercel CLI：
 
-## Learn More
+```bash
+npm i -g vercel
+vercel
+```
 
-To learn more about Next.js, take a look at the following resources:
+## 技术栈
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **框架**: Next.js 15 (App Router)
+- **语言**: TypeScript
+- **样式**: Tailwind CSS
+- **RSS**: rss-parser
+- **部署**: Vercel
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## API 端点
 
-## Deploy on Vercel
+- `GET /api/collect` - 抓取所有信源的最新资讯
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 项目结构
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
+ai-feed/
+├── app/
+│   ├── api/collect/
+│   │   └── route.ts      # RSS 抓取 API
+│   ├── layout.tsx         # 布局组件
+│   └── page.tsx           # 主页面
+├── lib/
+│   └── sources.ts         # 信源配置
+└── package.json
+```
+
+## License
+
+MIT
