@@ -23,6 +23,7 @@ export default function Home() {
   const [error, setError] = useState('');
   const [selectedSource, setSelectedSource] = useState<string>('all');
   const [selectedTag, setSelectedTag] = useState<string>('all');
+  const [searchKeyword, setSearchKeyword] = useState<string>('');
   const [showTranslation, setShowTranslation] = useState(false);
   const [translatingIds, setTranslatingIds] = useState<Set<number>>(new Set());
   const [showDailySummary, setShowDailySummary] = useState(false);
@@ -191,7 +192,7 @@ export default function Home() {
       {/* Header */}
       <header className="bg-white shadow-sm sticky top-0 z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                 AI 信息聚合
@@ -222,43 +223,6 @@ export default function Home() {
               >
                 {loading ? '加载中...' : '刷新'}
               </button>
-            </div>
-          </div>
-
-          {/* 筛选器 */}
-          <div className="flex flex-wrap gap-4">
-            <div className="flex-1 min-w-[200px]">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                信源筛选
-              </label>
-              <select
-                value={selectedSource}
-                onChange={(e) => setSelectedSource(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              >
-                {sources.map(source => (
-                  <option key={source} value={source}>
-                    {source === 'all' ? '全部信源' : source}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div className="flex-1 min-w-[200px]">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                标签筛选
-              </label>
-              <select
-                value={selectedTag}
-                onChange={(e) => setSelectedTag(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              >
-                {tags.map(tag => (
-                  <option key={tag} value={tag}>
-                    {tag === 'all' ? '全部标签' : tag}
-                  </option>
-                ))}
-              </select>
             </div>
           </div>
         </div>
@@ -325,6 +289,80 @@ export default function Home() {
             )}
           </div>
         )}
+
+        {/* 筛选器和搜索 - 放在资讯列表上方 */}
+        <div className="mb-6 bg-white rounded-xl p-6 shadow-sm">
+          <div className="flex flex-wrap gap-4">
+            <div className="flex-1 min-w-[200px]">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                信源筛选
+              </label>
+              <select
+                value={selectedSource}
+                onChange={(e) => setSelectedSource(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              >
+                {sources.map(source => (
+                  <option key={source} value={source}>
+                    {source === 'all' ? '全部信源' : source}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="flex-1 min-w-[200px]">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                标签筛选
+              </label>
+              <select
+                value={selectedTag}
+                onChange={(e) => setSelectedTag(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              >
+                {tags.map(tag => (
+                  <option key={tag} value={tag}>
+                    {tag === 'all' ? '全部标签' : tag}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="flex-1 min-w-[200px]">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                🔍 关键词搜索
+              </label>
+              <input
+                type="text"
+                value={searchKeyword}
+                onChange={(e) => setSearchKeyword(e.target.value)}
+                placeholder="搜索标题、摘要、标签..."
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
+            </div>
+          </div>
+
+          {/* 清除筛选按钮 */}
+          {(selectedSource !== 'all' || selectedTag !== 'all' || searchKeyword) && (
+            <div className="mt-4 flex items-center justify-between">
+              <span className="text-sm text-gray-600">
+                当前筛选条件：
+                {selectedSource !== 'all' && <span className="ml-2 px-2 py-1 bg-blue-100 text-blue-700 rounded text-xs">信源: {selectedSource}</span>}
+                {selectedTag !== 'all' && <span className="ml-2 px-2 py-1 bg-purple-100 text-purple-700 rounded text-xs">标签: {selectedTag}</span>}
+                {searchKeyword && <span className="ml-2 px-2 py-1 bg-green-100 text-green-700 rounded text-xs">关键词: {searchKeyword}</span>}
+              </span>
+              <button
+                onClick={() => {
+                  setSelectedSource('all');
+                  setSelectedTag('all');
+                  setSearchKeyword('');
+                }}
+                className="text-sm text-blue-600 hover:text-blue-700 font-medium"
+              >
+                清除所有筛选
+              </button>
+            </div>
+          )}
+        </div>
 
         {loading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -460,16 +498,23 @@ export default function Home() {
             </div>
 
             {filteredItems.length === 0 && (
-              <div className="text-center py-12">
-                <p className="text-gray-500 text-lg">没有找到匹配的资讯</p>
+              <div className="text-center py-12 bg-white rounded-xl">
+                <div className="text-6xl mb-4">🔍</div>
+                <p className="text-gray-500 text-lg mb-2">没有找到匹配的资讯</p>
+                {searchKeyword && (
+                  <p className="text-gray-400 text-sm mb-4">
+                    搜索关键词 "{searchKeyword}" 无匹配结果
+                  </p>
+                )}
                 <button
                   onClick={() => {
                     setSelectedSource('all');
                     setSelectedTag('all');
+                    setSearchKeyword('');
                   }}
-                  className="mt-4 text-blue-600 hover:text-blue-700"
+                  className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
                 >
-                  清除筛选条件
+                  清除所有筛选条件
                 </button>
               </div>
             )}
