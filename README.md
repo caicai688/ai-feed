@@ -1,13 +1,13 @@
 # AI 信息聚合
 
-[![CI/CD](https://github.com/YOUR_USERNAME/ai-feed/actions/workflows/ci.yml/badge.svg)](https://github.com/YOUR_USERNAME/ai-feed/actions/workflows/ci.yml)
-[![CodeQL](https://github.com/YOUR_USERNAME/ai-feed/actions/workflows/codeql.yml/badge.svg)](https://github.com/YOUR_USERNAME/ai-feed/actions/workflows/codeql.yml)
+[![CI/CD](https://github.com/caicai688/ai-feed/actions/workflows/ci.yml/badge.svg)](https://github.com/caicai688/ai-feed/actions/workflows/ci.yml)
+[![CodeQL](https://github.com/caicai688/ai-feed/actions/workflows/codeql.yml/badge.svg)](https://github.com/caicai688/ai-feed/actions/workflows/codeql.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/YOUR_USERNAME/ai-feed)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/caicai688/ai-feed)
 
 实时聚合 AI 领域顶级信源的最新资讯
 
-[在线演示](https://ai-feed.vercel.app) | [问题反馈](https://github.com/YOUR_USERNAME/ai-feed/issues) | [贡献指南](./CONTRIBUTING.md)
+[在线演示](https://ai-feed.vercel.app) | [问题反馈](https://github.com/caicai688/ai-feed/issues) | [贡献指南](./CONTRIBUTING.md)
 
 ## ✨ 功能特性
 
