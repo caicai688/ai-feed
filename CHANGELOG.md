@@ -1,47 +1,70 @@
-# Changelog
+# 更新日志
 
-All notable changes to this project will be documented in this file.
+## v1.2.0 - 2026-03-04
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+### 🎨 页面布局优化
+- **每日总结位置调整**：移至页面标题和筛选器之间，更醒目
+- **筛选器重新设计**：移至资讯列表上方，采用独立卡片样式
+- **视觉层次优化**：更清晰的信息架构和内容流
 
-## [Unreleased]
+### 🔍 新增关键词搜索
+- **模糊搜索功能**：输入关键词实时搜索相关资讯
+- **搜索范围全面**：
+  - 标题（原文和翻译）
+  - 摘要（原文和翻译）
+  - 标签
+  - 信源名称
+- **支持中英文**：无论是中文还是英文关键词都能准确匹配
+- **实时响应**：输入即搜，无需点击按钮
 
-### Added
-- 初始版本发布
-- RSS 数据聚合功能
-- 10 个 AI 信源支持
-- 现代化卡片 UI
-- 实时数据加载
-- GitHub Actions CI/CD 流程
-- Vercel 自动部署
+### ✨ 交互体验提升
+- **筛选条件可视化**：用彩色标签显示当前筛选条件
+- **一键清除**：方便快速重置所有筛选条件
+- **智能提示**：显示筛选前后的资讯数量对比
+- **空状态优化**：搜索无结果时提供更友好的提示
 
-## [1.0.0] - 2026-03-04
+### 📊 布局结构
+```
+页面标题（AI 信息聚合）
+    ↓
+每日总结（昨日 AI 动态总结）
+    ↓
+筛选和搜索（信源、标签、关键词）
+    ↓
+资讯列表（卡片展示）
+```
 
-### Added
-- Next.js 15 项目初始化
-- TypeScript + Tailwind CSS 配置
-- RSS Parser 集成
-- API 路由 `/api/collect`
-- 响应式卡片列表页面
-- 标签分类系统
-- 相对时间显示
-- 10 个 AI 领域权威信源：
-  - Anthropic Blog
-  - OpenAI Blog
-  - MIT Technology Review AI
-  - The Rundown AI
-  - TLDR AI
-  - Hugging Face Blog
-  - Google AI Blog
-  - Meta AI Blog
-  - DeepMind Blog
-  - Towards Data Science
+---
 
-### Technical
-- 并发 RSS 抓取
-- 容错处理（Promise.allSettled）
-- 缓存策略配置
-- GitHub Actions 工作流
-- CodeQL 安全扫描
-- 依赖审查自动化
+## v1.1.0 - 2026-03-04
+
+### ⚙️ 前端信源管理
+- 新增 `/manage` 管理页面
+- 支持动态添加/编辑/删除 YouTube 频道
+- 支持动态添加/编辑/删除 Twitter 账号
+- localStorage 持久化配置
+- 恢复默认配置功能
+
+### 📚 文档完善
+- 新增 `SOURCES_MANAGEMENT.md` 使用指南
+- 新增 `DEPLOYMENT.md` 部署记录
+- 更新 README 功能说明
+
+---
+
+## v1.0.0 - 初始版本
+
+### 核心功能
+- RSS 信源聚合（10个顶级信源）
+- YouTube 频道监控（5个频道）
+- Twitter 账号追踪（8个关键人物）
+- 中文翻译功能
+- 信源和标签筛选
+- 每日 AI 动态总结
+- 现代化响应式 UI
+
+### 技术栈
+- Next.js 15 + TypeScript
+- Tailwind CSS
+- Vercel 部署
+- GitHub Actions CI/CD
