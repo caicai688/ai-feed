@@ -1,0 +1,25 @@
+{
+  "conf": {
+    "headers": [],
+    "redirects": [],
+    "rewrites": [],
+    "caches": [],
+    "has404": true,
+    "ssr404": true
+  },
+  "has404": true,
+  "frameworkRoutes": [
+    {
+      "regexPath": "/_next/static/.*",
+      "isStatic": true
+    },
+    {
+      "regexPath": "/",
+      "isStatic": true
+    },
+    {
+      "regexPath": "/(404|500|_global-error|_global-error\\.meta|_global-error\\.rsc|_not-found|_not-found\\.meta|_not-found\\.rsc|favicon\\.ico|favicon\\.ico\\.meta|file\\.svg|globe\\.svg|index\\.meta|index\\.rsc|manage|manage\\.meta|manage\\.rsc|next\\.svg|vercel\\.svg|window\\.svg)",
+      "isStatic": true
+    }
+  ]
+}

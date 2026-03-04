@@ -1,0 +1,62 @@
+{
+  "nextRoutes": [
+    {
+      "path": "/_global-error",
+      "isStatic": true,
+      "srcRoute": "/_global-error",
+      "dataRoute": "/_global-error.rsc"
+    },
+    {
+      "path": "/_not-found",
+      "isStatic": true,
+      "srcRoute": "/_not-found",
+      "dataRoute": "/_not-found.rsc"
+    },
+    {
+      "path": "/favicon.ico",
+      "isStatic": true,
+      "srcRoute": "/favicon.ico"
+    },
+    {
+      "path": "/manage",
+      "isStatic": true,
+      "srcRoute": "/manage",
+      "dataRoute": "/manage.rsc"
+    },
+    {
+      "path": "/",
+      "isStatic": true,
+      "srcRoute": "/",
+      "dataRoute": "/index.rsc"
+    },
+    {
+      "path": "/404",
+      "isStatic": true
+    },
+    {
+      "path": "/500",
+      "isStatic": true
+    },
+    {
+      "path": "/api/collect"
+    },
+    {
+      "path": "/api/daily-summary"
+    },
+    {
+      "path": "/api/social-sources"
+    },
+    {
+      "path": "/api/translate"
+    },
+    {
+      "path": "/api/twitter"
+    },
+    {
+      "path": "/api/youtube"
+    },
+    {
+      "path": "/_next/image"
+    }
+  ]
+}

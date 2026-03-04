@@ -102,7 +102,7 @@ async function fetchTwitterFeeds(twitterAccounts: TwitterAccount[]) {
   }
 }
 
-function parseTwitterRSS(xmlText: string, account: typeof twitterAccounts[0]): TwitterItem[] {
+function parseTwitterRSS(xmlText: string, account: TwitterAccount): TwitterItem[] {
   const items: TwitterItem[] = [];
   
   try {
