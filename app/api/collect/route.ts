@@ -9,6 +9,10 @@ export interface FeedItem {
   url: string;
   date: string;
   tags: string[];
+  type?: 'rss' | 'youtube' | 'twitter';
+  videoId?: string;
+  transcript?: string;
+  thumbnailUrl?: string;
 }
 
 const parser = new Parser({
@@ -17,18 +21,22 @@ const parser = new Parser({
   }
 });
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
+    const { searchParams } = new URL(request.url);
+    const includeYoutube = searchParams.get('youtube') !== 'false';
+    const includeTwitter = searchParams.get('twitter') !== 'false';
+    
     const allItems: FeedItem[] = [];
 
-    // 并发抓取所有 RSS 源
-    const results = await Promise.allSettled(
-      sources.map(async (source) => {
+    // 并发抓取所有数据源
+    const fetchPromises: Promise<any>[] = [
+      // RSS 源
+      ...sources.map(async (source) => {
         try {
           const feed = await parser.parseURL(source.rssUrl);
           
           return feed.items.map((item) => {
-            // 提取摘要，优先级：description > content:encoded > content > summary
             const summary = 
               item.contentSnippet ||
               item.description ||
@@ -39,11 +47,12 @@ export async function GET() {
 
             return {
               title: item.title || 'Untitled',
-              summary: summary.substring(0, 300), // 限制长度
+              summary: summary.substring(0, 300),
               source: source.name,
               url: item.link || '',
               date: item.pubDate || item.isoDate || new Date().toISOString(),
-              tags: source.tags
+              tags: source.tags,
+              type: 'rss' as const
             };
           });
         } catch (error) {
@@ -51,11 +60,33 @@ export async function GET() {
           return [];
         }
       })
-    );
+    ];
+
+    // 添加 YouTube 数据
+    if (includeYoutube) {
+      fetchPromises.push(
+        fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/youtube`)
+          .then(res => res.json())
+          .then(data => data.success ? data.items : [])
+          .catch(() => [])
+      );
+    }
+
+    // 添加 Twitter 数据
+    if (includeTwitter) {
+      fetchPromises.push(
+        fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/twitter`)
+          .then(res => res.json())
+          .then(data => data.success ? data.items : [])
+          .catch(() => [])
+      );
+    }
+
+    const results = await Promise.allSettled(fetchPromises);
 
     // 收集所有成功的结果
     results.forEach((result) => {
-      if (result.status === 'fulfilled' && result.value.length > 0) {
+      if (result.status === 'fulfilled' && Array.isArray(result.value)) {
         allItems.push(...result.value);
       }
     });
@@ -68,12 +99,17 @@ export async function GET() {
     return NextResponse.json({
       success: true,
       count: allItems.length,
-      items: allItems
+      items: allItems,
+      sources: {
+        rss: sources.length,
+        youtube: includeYoutube,
+        twitter: includeTwitter
+      }
     });
   } catch (error) {
-    console.error('RSS collection error:', error);
+    console.error('Collection error:', error);
     return NextResponse.json(
-      { success: false, error: 'Failed to collect RSS feeds' },
+      { success: false, error: 'Failed to collect feeds' },
       { status: 500 }
     );
   }
