@@ -1,14 +1,24 @@
 # AI 信息聚合
 
+[![CI/CD](https://github.com/YOUR_USERNAME/ai-feed/actions/workflows/ci.yml/badge.svg)](https://github.com/YOUR_USERNAME/ai-feed/actions/workflows/ci.yml)
+[![CodeQL](https://github.com/YOUR_USERNAME/ai-feed/actions/workflows/codeql.yml/badge.svg)](https://github.com/YOUR_USERNAME/ai-feed/actions/workflows/codeql.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/YOUR_USERNAME/ai-feed)
+
 实时聚合 AI 领域顶级信源的最新资讯
 
-## 功能特性
+[在线演示](https://ai-feed.vercel.app) | [问题反馈](https://github.com/YOUR_USERNAME/ai-feed/issues) | [贡献指南](./CONTRIBUTING.md)
+
+## ✨ 功能特性
 
 - 📰 聚合 10+ AI 领域权威信源
 - 🔄 实时抓取 RSS 数据
 - 🎨 现代化卡片式 UI
 - ⚡ Next.js 15 + TypeScript + Tailwind CSS
 - 🚀 一键部署到 Vercel
+- 🤖 GitHub Actions 自动化 CI/CD
+- 🔒 CodeQL 安全扫描
+- 📦 依赖自动审查
 
 ## 信源列表
 
@@ -23,9 +33,15 @@
 - DeepMind Blog
 - Towards Data Science
 
-## 本地开发
+## 🚀 快速开始
+
+### 本地开发
 
 ```bash
+# 克隆仓库
+git clone https://github.com/YOUR_USERNAME/ai-feed.git
+cd ai-feed
+
 # 安装依赖
 npm install
 
@@ -35,19 +51,63 @@ npm run dev
 # 访问 http://localhost:3000
 ```
 
-## 部署到 Vercel
+### 代码检查
 
-1. 推送代码到 GitHub
-2. 登录 [Vercel](https://vercel.com)
-3. 导入 GitHub 仓库
-4. 自动部署完成！
+```bash
+# ESLint 检查
+npm run lint
 
-或使用 Vercel CLI：
+# TypeScript 类型检查
+npx tsc --noEmit
+
+# 构建测试
+npm run build
+```
+
+## 🔄 CI/CD 流程
+
+本项目配置了完整的 CI/CD 流程：
+
+### 自动化检查（每次 Push/PR）
+- ✅ ESLint 代码规范检查
+- ✅ TypeScript 类型检查
+- ✅ 构建测试
+- ✅ CodeQL 安全扫描
+- ✅ 依赖审查
+
+### 自动化部署
+- 🚀 Push 到 `main` 分支自动部署到生产环境
+- 🔍 PR 自动创建预览环境
+- 💬 部署成功后自动评论 URL
+
+## 📦 部署到 Vercel
+
+### 方式 1：通过 GitHub（推荐）
+
+1. Fork 本仓库
+2. 访问 [Vercel](https://vercel.com)
+3. 点击 "Import Project"
+4. 选择你的 GitHub 仓库
+5. 点击 "Deploy"
+
+**配置 GitHub Secrets（可选，用于 Actions 自动部署）：**
+
+在仓库的 Settings → Secrets and variables → Actions 中添加：
+
+- `VERCEL_TOKEN`: Vercel Token ([获取地址](https://vercel.com/account/tokens))
+- `VERCEL_ORG_ID`: 组织 ID（在 Vercel 项目设置中查看）
+- `VERCEL_PROJECT_ID`: 项目 ID（在 Vercel 项目设置中查看）
+
+### 方式 2：Vercel CLI
 
 ```bash
 npm i -g vercel
 vercel
 ```
+
+### 方式 3：一键部署
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/YOUR_USERNAME/ai-feed)
 
 ## 技术栈
 
@@ -56,25 +116,59 @@ vercel
 - **样式**: Tailwind CSS
 - **RSS**: rss-parser
 - **部署**: Vercel
+- **CI/CD**: GitHub Actions
 
 ## API 端点
 
 - `GET /api/collect` - 抓取所有信源的最新资讯
 
-## 项目结构
+## 📁 项目结构
 
 ```
 ai-feed/
+├── .github/
+│   ├── workflows/          # GitHub Actions
+│   │   ├── ci.yml         # 主 CI/CD 流程
+│   │   ├── preview.yml    # PR 预览部署
+│   │   ├── codeql.yml     # 安全扫描
+│   │   └── dependency-review.yml
+│   ├── ISSUE_TEMPLATE/    # Issue 模板
+│   └── pull_request_template.md
 ├── app/
 │   ├── api/collect/
-│   │   └── route.ts      # RSS 抓取 API
-│   ├── layout.tsx         # 布局组件
-│   └── page.tsx           # 主页面
+│   │   └── route.ts       # RSS 抓取 API
+│   ├── layout.tsx         # 根布局
+│   ├── page.tsx           # 主页面
+│   └── globals.css        # 全局样式
 ├── lib/
-│   └── sources.ts         # 信源配置
+│   └── sources.ts         # RSS 源配置
+├── public/                # 静态资源
+├── CONTRIBUTING.md        # 贡献指南
+├── CHANGELOG.md           # 变更日志
+├── LICENSE                # MIT 许可证
+├── vercel.json            # Vercel 配置
 └── package.json
 ```
 
-## License
+## 🤝 贡献
 
-MIT
+欢迎贡献！请查看 [贡献指南](./CONTRIBUTING.md)。
+
+### 贡献流程
+
+1. Fork 本仓库
+2. 创建特性分支 (`git checkout -b feature/AmazingFeature`)
+3. 提交更改 (`git commit -m 'feat: Add some AmazingFeature'`)
+4. 推送到分支 (`git push origin feature/AmazingFeature`)
+5. 开启 Pull Request
+
+## 📝 License
+
+本项目采用 MIT 许可证 - 查看 [LICENSE](LICENSE) 文件了解详情
+
+## 🙏 致谢
+
+- [Next.js](https://nextjs.org/) - React 框架
+- [Tailwind CSS](https://tailwindcss.com/) - CSS 框架
+- [rss-parser](https://github.com/rbren/rss-parser) - RSS 解析库
+- 所有 AI 信源提供者
