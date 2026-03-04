@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import Parser from 'rss-parser';
-import { youtubeChannels } from '@/lib/social-sources';
+import { youtubeChannels as defaultYoutubeChannels, YouTubeChannel } from '@/lib/social-sources';
 import { YoutubeTranscript } from 'youtube-transcript';
 
 export interface YouTubeItem {
@@ -22,7 +22,26 @@ const parser = new Parser({
   }
 });
 
+export async function POST(request: Request) {
+  try {
+    const body = await request.json();
+    const customChannels = body.channels || defaultYoutubeChannels;
+    
+    return await fetchYouTubeFeeds(customChannels);
+  } catch (error) {
+    console.error('YouTube collection error:', error);
+    return NextResponse.json(
+      { success: false, error: 'Failed to collect YouTube feeds' },
+      { status: 500 }
+    );
+  }
+}
+
 export async function GET() {
+  return await fetchYouTubeFeeds(defaultYoutubeChannels);
+}
+
+async function fetchYouTubeFeeds(youtubeChannels: YouTubeChannel[]) {
   try {
     const allItems: YouTubeItem[] = [];
 
@@ -93,9 +112,9 @@ export async function GET() {
       items: allItems
     });
   } catch (error) {
-    console.error('YouTube collection error:', error);
+    console.error('YouTube fetch error:', error);
     return NextResponse.json(
-      { success: false, error: 'Failed to collect YouTube feeds' },
+      { success: false, error: 'Failed to fetch YouTube feeds' },
       { status: 500 }
     );
   }

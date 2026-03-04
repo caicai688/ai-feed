@@ -15,6 +15,7 @@
 - 📰 聚合 10+ AI 领域权威RSS信源
 - ▶️ 监控 5 个顶级 AI YouTube 频道（支持字幕文稿）
 - 🐦 追踪 8 位 AI 领域关键人物的 X/Twitter 动态
+- ⚙️ **前端动态管理信源**（可自由添加/编辑/删除 YouTube 频道和 Twitter 账号）
 - 🌐 AI 翻译中文版本（一键切换中英文）
 - 📊 按信源和标签智能筛选
 - 📈 每日 AI 动态总结和重点推荐
@@ -158,15 +159,24 @@ ai-feed/
 │   ├── ISSUE_TEMPLATE/    # Issue 模板
 │   └── pull_request_template.md
 ├── app/
-│   ├── api/collect/
-│   │   └── route.ts       # RSS 抓取 API
+│   ├── api/
+│   │   ├── collect/       # RSS 抓取 API
+│   │   ├── youtube/       # YouTube 数据 API
+│   │   ├── twitter/       # Twitter 数据 API
+│   │   ├── translate/     # 翻译 API
+│   │   ├── daily-summary/ # 每日总结 API
+│   │   └── social-sources/# 社交媒体源管理 API
+│   ├── manage/
+│   │   └── page.tsx       # 信源管理页面
 │   ├── layout.tsx         # 根布局
 │   ├── page.tsx           # 主页面
 │   └── globals.css        # 全局样式
 ├── lib/
-│   └── sources.ts         # RSS 源配置
+│   ├── sources.ts         # RSS 源配置
+│   └── social-sources.ts  # YouTube/Twitter 默认配置
 ├── public/                # 静态资源
 ├── CONTRIBUTING.md        # 贡献指南
+├── FEATURES.md            # 功能详细说明
 ├── CHANGELOG.md           # 变更日志
 ├── LICENSE                # MIT 许可证
 ├── vercel.json            # Vercel 配置

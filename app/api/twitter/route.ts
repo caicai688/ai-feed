@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { twitterAccounts } from '@/lib/social-sources';
+import { twitterAccounts as defaultTwitterAccounts, TwitterAccount } from '@/lib/social-sources';
 
 export interface TwitterItem {
   title: string;
@@ -12,7 +12,26 @@ export interface TwitterItem {
   username: string;
 }
 
+export async function POST(request: Request) {
+  try {
+    const body = await request.json();
+    const customAccounts = body.accounts || defaultTwitterAccounts;
+    
+    return await fetchTwitterFeeds(customAccounts);
+  } catch (error) {
+    console.error('Twitter collection error:', error);
+    return NextResponse.json(
+      { success: false, error: 'Failed to collect Twitter feeds' },
+      { status: 500 }
+    );
+  }
+}
+
 export async function GET() {
+  return await fetchTwitterFeeds(defaultTwitterAccounts);
+}
+
+async function fetchTwitterFeeds(twitterAccounts: TwitterAccount[]) {
   try {
     const allItems: TwitterItem[] = [];
 
@@ -75,9 +94,9 @@ export async function GET() {
       note: 'Twitter data via Nitter RSS. May have delays or limited availability.'
     });
   } catch (error) {
-    console.error('Twitter collection error:', error);
+    console.error('Twitter fetch error:', error);
     return NextResponse.json(
-      { success: false, error: 'Failed to collect Twitter feeds' },
+      { success: false, error: 'Failed to fetch Twitter feeds' },
       { status: 500 }
     );
   }

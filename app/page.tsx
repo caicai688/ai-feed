@@ -36,14 +36,60 @@ export default function Home() {
   const fetchFeeds = async () => {
     try {
       setLoading(true);
-      const response = await fetch('/api/collect');
-      const data = await response.json();
       
-      if (data.success) {
-        setItems(data.items);
+      // 从localStorage获取自定义配置
+      const customYoutubeChannels = localStorage.getItem('customYoutubeChannels');
+      const customTwitterAccounts = localStorage.getItem('customTwitterAccounts');
+      
+      const youtubeChannels = customYoutubeChannels ? JSON.parse(customYoutubeChannels) : null;
+      const twitterAccounts = customTwitterAccounts ? JSON.parse(customTwitterAccounts) : null;
+      
+      // 收集所有数据源
+      const dataPromises = [];
+      
+      // RSS feeds
+      dataPromises.push(fetch('/api/collect?rssOnly=true').then(r => r.json()));
+      
+      // YouTube (使用自定义配置)
+      if (youtubeChannels && youtubeChannels.length > 0) {
+        dataPromises.push(
+          fetch('/api/youtube', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ channels: youtubeChannels })
+          }).then(r => r.json())
+        );
       } else {
-        setError('Failed to load feeds');
+        dataPromises.push(fetch('/api/youtube').then(r => r.json()));
       }
+      
+      // Twitter (使用自定义配置)
+      if (twitterAccounts && twitterAccounts.length > 0) {
+        dataPromises.push(
+          fetch('/api/twitter', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ accounts: twitterAccounts })
+          }).then(r => r.json())
+        );
+      } else {
+        dataPromises.push(fetch('/api/twitter').then(r => r.json()));
+      }
+      
+      const results = await Promise.all(dataPromises);
+      
+      // 合并所有数据
+      const allItems: FeedItem[] = [];
+      results.forEach(result => {
+        if (result.success && result.items) {
+          allItems.push(...result.items);
+        }
+      });
+      
+      // 按日期排序
+      allItems.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+      
+      setItems(allItems);
     } catch (err) {
       setError('Network error');
       console.error(err);
@@ -153,6 +199,12 @@ export default function Home() {
               <p className="text-gray-600 mt-1">实时追踪 AI 领域最新动态</p>
             </div>
             <div className="flex gap-3">
+              <a
+                href="/manage"
+                className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
+              >
+                ⚙️ 管理信源
+              </a>
               <button
                 onClick={() => setShowTranslation(!showTranslation)}
                 className={`px-4 py-2 rounded-lg transition-colors ${
