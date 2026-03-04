@@ -13,17 +13,23 @@ export interface DailySummary {
   generatedAt: string;
 }
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
     // 获取昨天的日期
     const yesterday = new Date();
     yesterday.setDate(yesterday.getDate() - 1);
     const dateStr = yesterday.toISOString().split('T')[0];
 
-    // 获取所有数据
+    // 获取所有数据 - 使用请求的 origin 构建完整 URL
+    const origin = request.headers.get('host') 
+      ? `${request.headers.get('x-forwarded-proto') || 'http'}://${request.headers.get('host')}`
+      : 'http://localhost:3002';
+    
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/collect`,
-      { next: { revalidate: 3600 } } // 缓存1小时
+      `${origin}/api/collect?rssOnly=true`,
+      { 
+        cache: 'no-store' // 不缓存，获取最新数据
+      }
     );
     const data = await response.json();
 
