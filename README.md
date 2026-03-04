@@ -11,27 +11,44 @@
 
 ## ✨ 功能特性
 
-- 📰 聚合 10+ AI 领域权威信源
-- 🔄 实时抓取 RSS 数据
-- 🎨 现代化卡片式 UI
+### 核心功能
+- 📰 聚合 10+ AI 领域权威RSS信源
+- ▶️ 监控 5 个顶级 AI YouTube 频道（支持字幕文稿）
+- 🐦 追踪 8 位 AI 领域关键人物的 X/Twitter 动态
+- 🌐 AI 翻译中文版本（一键切换中英文）
+- 📊 按信源和标签智能筛选
+- 📈 每日 AI 动态总结和重点推荐
+
+### 技术特性
 - ⚡ Next.js 15 + TypeScript + Tailwind CSS
 - 🚀 一键部署到 Vercel
 - 🤖 GitHub Actions 自动化 CI/CD
 - 🔒 CodeQL 安全扫描
 - 📦 依赖自动审查
+- 🎨 现代化响应式 UI
 
-## 信源列表
+[查看详细功能说明 →](./FEATURES.md)
 
-- Anthropic Blog
-- OpenAI Blog
+## 📡 数据源
+
+### RSS 信源（10个）
+- Anthropic Blog、OpenAI Blog
 - MIT Technology Review AI
-- The Rundown AI
-- TLDR AI
-- Hugging Face Blog
-- Google AI Blog
-- Meta AI Blog
-- DeepMind Blog
+- The Rundown AI、TLDR AI
+- Hugging Face Blog、Google AI Blog
+- Meta AI Blog、DeepMind Blog
 - Towards Data Science
+
+### YouTube 频道（5个）
+- OpenAI、Anthropic、Google DeepMind
+- Lex Fridman Podcast
+- Two Minute Papers
+
+### X/Twitter 账号（8个）
+- Sam Altman、Dario Amodei、Yann LeCun
+- Andrew Ng、Greg Brockman
+- Andrej Karpathy、Ilya Sutskever
+- Demis Hassabis
 
 ## 🚀 快速开始
 
@@ -114,13 +131,19 @@ vercel
 - **框架**: Next.js 15 (App Router)
 - **语言**: TypeScript
 - **样式**: Tailwind CSS
-- **RSS**: rss-parser
+- **数据源**: RSS Parser, YouTube RSS, Nitter
+- **翻译**: MyMemory Translation API
+- **字幕**: youtube-transcript
 - **部署**: Vercel
 - **CI/CD**: GitHub Actions
 
 ## API 端点
 
 - `GET /api/collect` - 抓取所有信源的最新资讯
+- `GET /api/youtube` - YouTube 频道视频数据
+- `GET /api/twitter` - X/Twitter 账号动态
+- `GET /api/daily-summary` - 每日 AI 动态总结
+- `POST /api/translate` - 翻译服务（中英文）
 
 ## 📁 项目结构
 
