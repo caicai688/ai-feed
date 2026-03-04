@@ -170,9 +170,20 @@ export default function Home() {
     return items.filter(item => {
       const sourceMatch = selectedSource === 'all' || item.source === selectedSource;
       const tagMatch = selectedTag === 'all' || item.tags.includes(selectedTag);
-      return sourceMatch && tagMatch;
+      
+      // 关键词搜索
+      const keyword = searchKeyword.toLowerCase().trim();
+      const keywordMatch = !keyword || 
+        item.title.toLowerCase().includes(keyword) ||
+        item.summary.toLowerCase().includes(keyword) ||
+        item.translatedTitle?.toLowerCase().includes(keyword) ||
+        item.translatedSummary?.toLowerCase().includes(keyword) ||
+        item.tags.some(tag => tag.toLowerCase().includes(keyword)) ||
+        item.source.toLowerCase().includes(keyword);
+      
+      return sourceMatch && tagMatch && keywordMatch;
     });
-  }, [items, selectedSource, selectedTag]);
+  }, [items, selectedSource, selectedTag, searchKeyword]);
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
