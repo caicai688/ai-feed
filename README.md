@@ -7,7 +7,7 @@
 
 实时聚合 AI 领域顶级信源的最新资讯
 
-[在线演示](https://ai-feed.vercel.app) | [问题反馈](https://github.com/caicai688/ai-feed/issues) | [贡献指南](./CONTRIBUTING.md)
+[在线演示](https://ai-feed-ten.vercel.app) | [问题反馈](https://github.com/caicai688/ai-feed/issues) | [贡献指南](./CONTRIBUTING.md)
 
 ## ✨ 功能特性
 
